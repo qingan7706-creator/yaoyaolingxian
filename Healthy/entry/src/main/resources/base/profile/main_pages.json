@@ -1,0 +1,26 @@
+{
+  "src": [
+    "pages/Login_Page",
+    "pages/Forget_Page_1",
+    "pages/Family_member_Page",
+    "pages/Main_Page",
+    "pages/Register_Page",
+    "pages/Dietary_Advice_Page",
+    "pages/Setting_page",
+    "pages/Family_inf_Page",
+    "pages/Exercise_Page",
+    "pages/Account_security_page",
+    "pages/Login_password_page",
+    "pages/Message_notification_page",
+    "pages/General_page",
+    "pages/Friend_permission_page",
+    "pages/Personal_Data_Page",
+    "pages/Phone_number_page",
+    "pages/Sign_page",
+    "pages/Name_page",
+    "pages/Gender_page",
+    "pages/Show_Page",
+    "pages/Goal_Page",
+    "pages/test"
+  ]
+}

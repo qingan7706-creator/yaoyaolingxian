@@ -1,4 +1,26 @@
 import router from '@ohos.router'
+import http from '@ohos.net.http'
+import GlobalStore from './GlobalStore' // 请替换为实际路径
+
+function post_phonenumber(text:string): number {
+  const httpRequest: http.HttpRequest = http.createHttp()
+  console.log(GlobalStore.sessionId)
+  httpRequest.request(
+    'http://192.168.111.171:8000/api/check/',
+    {
+      method: http.RequestMethod.POST,
+      header: {
+        'Cookie': `sessionid=${GlobalStore.sessionId}`,
+        'Content-Type': 'application/json'
+      },
+      extraData: text
+    }
+  ).catch((err: Error) => {
+    console.error('网络请求异常:', err)
+    return 404
+  })
+  return 200
+}
 @Entry
 //设置手机号
 @Component
@@ -34,6 +56,11 @@ struct Phone_number_Page {
           .borderRadius(15)
           .enabled(this.newNumber.trim() !== '')
           .onClick(() => {
+            if (post_phonenumber(this.newNumber.trim()) == 200){
+              console.info(`更新手机号为: ${this.newNumber}`)
+            } else{
+              console.info(`更新失败`)
+            }
             router.back()
           })
       }

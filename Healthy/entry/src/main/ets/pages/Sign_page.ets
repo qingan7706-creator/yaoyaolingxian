@@ -1,7 +1,31 @@
 import router from '@ohos.router'
+import http from '@ohos.net.http'
+import GlobalStore from './GlobalStore' // 请替换为实际路径
+
+function post_sign(text:string): number {
+  const httpRequest: http.HttpRequest = http.createHttp()
+  console.log(GlobalStore.sessionId)
+  httpRequest.request(
+    'http://192.168.111.171:8000/api/check/',
+    {
+      method: http.RequestMethod.POST,
+      header: {
+        'Cookie': `sessionid=${GlobalStore.sessionId}`,
+        'Content-Type': 'application/json'
+      },
+      extraData: text
+    }
+    ).catch((err: Error) => {
+    console.error('网络请求异常:', err)
+    return 404
+  })
+  return 200
+}
+
 //修改个性签名
 @Entry
 @Component
+
 struct Sign_Page {
   @State currentSign: string = 'happy'
   @State newSign: string = ''
@@ -35,8 +59,9 @@ struct Sign_Page {
           .borderRadius(15)
           .enabled(this.newSign.trim() !== '')
           .onClick(() => this.updateSign())
-          .onClick(() =>
-          router.back())
+          .onClick(() =>{
+            router.back()
+          })
       }
       .backgroundColor(0xffffff)
       .shadow({ radius: 2, offsetY: 1, color: '#eee' })
@@ -85,7 +110,10 @@ struct Sign_Page {
       })
       return
     }
-    this.currentSign = this.newSign // 更新当前名字
-    console.info(`更新个签为: ${this.newSign}`)
+    if (post_sign(this.newSign.trim()) == 200){
+      console.info(`更新个签为: ${this.newSign}`)
+    } else{
+      console.info(`更新失败`)
+    }
   }
 }

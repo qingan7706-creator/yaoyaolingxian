@@ -12,8 +12,6 @@ interface ParamObj {
 }
 
 
-
-
 @Entry
 @Component
 struct Family_inf_Page {
